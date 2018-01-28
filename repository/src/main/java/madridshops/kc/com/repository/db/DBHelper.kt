@@ -28,7 +28,26 @@ class DBHelper(
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        val updateChangesFromv1Tov2 = {
 
+        }
+
+        val updateChangesFromv2Tov3 = {
+
+        }
+
+        if (oldVersion == 1 && newVersion == 2) {
+            updateChangesFromv1Tov2()
+        }
+
+        if (oldVersion == 1 && newVersion == 3) {
+            updateChangesFromv1Tov2()
+            updateChangesFromv2Tov3()
+        }
+
+        if (oldVersion == 2 && newVersion == 3) {
+            updateChangesFromv2Tov3()
+        }
     }
 
 }
