@@ -10,7 +10,7 @@ import com.kc.madridshops.repository.ErrorCompletion
 import com.kc.madridshops.repository.SuccessCompletion
 import java.lang.ref.WeakReference
 
-class GetJsonManagerImpl(context: Context): GetJsonManager {
+internal class GetJsonManagerImpl(context: Context): GetJsonManager {
 
     // referencia débil para liberar memoria
     var weakContext: WeakReference<Context> = WeakReference(context)

@@ -1,6 +1,7 @@
 package com.kc.madridshops.repository.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 
@@ -8,12 +9,12 @@ data class ShopEntity (
         val id: Long,
         val databaseId: Long,
         val name: String,
-        val description_en: String,
-        val gps_lat: Float,
-        val gps_lon: Float,
+        @JsonProperty("description_en") val description: String,
+        @JsonProperty("gps_lat") val latitude: Float,
+        @JsonProperty("gps_lon") val longitude: Float,
         val img: String,
-        val logo_img: String,
-        val opening_hours_en: String,
+        @JsonProperty("logo_img") val logo: String,
+        @JsonProperty("opening_hours_en") val openingHours: String,
         val address: String
 
 )

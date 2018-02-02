@@ -7,7 +7,7 @@ import com.kc.madridshops.repository.db.DBConstants
 import com.kc.madridshops.repository.db.DBHelper
 import com.kc.madridshops.repository.model.ShopEntity
 
-class ShopDAO (val dbHelper: DBHelper): DAOPersistable<ShopEntity> {
+internal class ShopDAO (val dbHelper: DBHelper): DAOPersistable<ShopEntity> {
 
     private val dbReadOnlyConnection: SQLiteDatabase = dbHelper.readableDatabase
     private val dbReadWriteConnection: SQLiteDatabase = dbHelper.writableDatabase
@@ -28,12 +28,12 @@ class ShopDAO (val dbHelper: DBHelper): DAOPersistable<ShopEntity> {
         content.put(DBConstants.KEY_SHOP_JSON_ID, shopEntity.id)
         content.put(DBConstants.KEY_SHOP_NAME, shopEntity.name)
         content.put(DBConstants.KEY_SHOP_ADDRESS, shopEntity.address)
-        content.put(DBConstants.KEY_SHOP_DESCRIPTION, shopEntity.description_en)
-        content.put(DBConstants.KEY_SHOP_LATITUDE, shopEntity.gps_lat)
-        content.put(DBConstants.KEY_SHOP_LONGITUDE, shopEntity.gps_lon)
+        content.put(DBConstants.KEY_SHOP_DESCRIPTION, shopEntity.description)
+        content.put(DBConstants.KEY_SHOP_LATITUDE, shopEntity.latitude)
+        content.put(DBConstants.KEY_SHOP_LONGITUDE, shopEntity.longitude)
         content.put(DBConstants.KEY_SHOP_IMAGE_URL, shopEntity.img)
-        content.put(DBConstants.KEY_SHOP_LOGO_IMAGE_URL, shopEntity.logo_img)
-        content.put(DBConstants.KEY_SHOP_OPENING_HOURS, shopEntity.opening_hours_en)
+        content.put(DBConstants.KEY_SHOP_LOGO_IMAGE_URL, shopEntity.logo)
+        content.put(DBConstants.KEY_SHOP_OPENING_HOURS, shopEntity.openingHours)
 
         return content
     }
@@ -57,7 +57,7 @@ class ShopDAO (val dbHelper: DBHelper): DAOPersistable<ShopEntity> {
                 DBConstants.TABLE_SHOP,
                 null,
                 null
-                ).toLong() > 0 // Devuelvo true si he borrado algún registro
+                ).toLong() >= 0 // Devuelvo true si he borrado algún registro
     }
 
 

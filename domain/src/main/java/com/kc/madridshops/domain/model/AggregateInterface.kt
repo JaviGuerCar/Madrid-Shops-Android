@@ -3,7 +3,7 @@ package com.kc.madridshops.domain.model
 // Interface segregation
 // SOLID
 
-interface  ReadAggregate<T> {
+interface ReadAggregate<T> {
 
     fun count(): Int
     fun all(): List<T>
