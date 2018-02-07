@@ -4,8 +4,7 @@ import android.support.multidex.MultiDexApplication
 import android.util.Log
 import com.kc.madridshops.domain.interactor.ErrorCompletion
 import com.kc.madridshops.domain.interactor.SuccessCompletion
-import com.kc.madridshops.domain.interactor.deleteallshops.DeleteAllShopsImpl
-import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractorFakeImpl
+import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractorImpl
 import com.kc.madridshops.domain.model.Shops
 
 
@@ -18,34 +17,29 @@ class MadridShopsApp: MultiDexApplication(){
 
         Log.d("App Init", "onCreate")
 
-        val allShopsInteractor = GetAllShopsInteractorFakeImpl()
-
-        allShopsInteractor.execute(success = { shops: Shops -> Unit
-
-        }, error = { msg: String -> Unit
-
-        })
+        val allShopsInteractor = GetAllShopsInteractorImpl(this)
 
         allShopsInteractor.execute(
                 success = object: SuccessCompletion<Shops> {
                     override fun successCompletion(shops: Shops) {
                         Log.d("Shops", "Número de Tiendas: " + shops.count())
+
+                        shops.shops.forEach { Log.d("Shop", it.name) }
                     }
 
                 },
                 error = object: ErrorCompletion {
                     override fun errorCompletion(errorMessage: String) {
-
+                        Log.d("Error", "error GetAllShops")
                     }
-
                 }
         )
 
-        DeleteAllShopsImpl(this).execute(success = {
+        /*DeleteAllShopsImpl(this).execute(success = {
             Log.d("success", "success")
         },error = {
             Log.d("error", "error deleting")
-        })
+        })*/
 
     }
 
