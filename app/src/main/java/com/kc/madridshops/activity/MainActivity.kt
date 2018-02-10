@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addAllPins(shops: Shops){
-        for (i in 250 until shops.count()){
+        for (i in 0 until shops.count()){
             val shop = shops.get(i)
             if (shop.latitude!=null && shop.longitude!=null){
                 addPin(map!!, shop.latitude!!, shop.longitude!!, shop.name)
