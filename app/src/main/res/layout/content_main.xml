@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.MainActivity"
+    tools:context=".activity.ShopActivity"
     tools:showIn="@layout/activity_main"
     android:orientation="vertical">
 
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/activity_main_list_fragment"
-        android:name="com.kc.madridshops.fragment.ListFragment"
+        android:name="com.kc.madridshops.fragment.ShopListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorAccent"

@@ -23,34 +23,37 @@ import com.kc.madridshops.domain.interactor.SuccessCompletion
 import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractor
 import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractorImpl
 import com.kc.madridshops.domain.model.Shops
-import com.kc.madridshops.fragment.ListFragment
+import com.kc.madridshops.fragment.ShopListFragment
 import com.kc.madridshops.router.Router
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class ShopActivity : AppCompatActivity() {
 
     var context: Context? = null
+    private var map: GoogleMap? = null
+    var shopListFragment: ShopListFragment? = null
 
-    var listFragment: ListFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        Log.d("App Init", "onCreate MainActivity")
+        Log.d("App Init", "onCreate ShopActivity")
 
-        setupMap()
+        downloadShops()
 
-        listFragment = supportFragmentManager.findFragmentById(R.id.activity_main_list_fragment) as ListFragment
+        shopListFragment = supportFragmentManager.findFragmentById(R.id.activity_main_list_fragment) as ShopListFragment
 
     }
 
-    private fun setupMap() {
+    private fun downloadShops() {
 
         val getAllShopsInteractor: GetAllShopsInteractor = GetAllShopsInteractorImpl(this)
         getAllShopsInteractor.execute(object: SuccessCompletion<Shops> {
             override fun successCompletion(shops: Shops) {
+
+                shopListFragment?.shopsFromShopActivity(shops)
                 initializeMap(shops)
            }
 
@@ -98,8 +101,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
-    private var map: GoogleMap? = null
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
