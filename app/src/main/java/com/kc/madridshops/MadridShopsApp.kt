@@ -2,10 +2,6 @@ package com.kc.madridshops
 
 import android.support.multidex.MultiDexApplication
 import android.util.Log
-import com.kc.madridshops.domain.interactor.ErrorCompletion
-import com.kc.madridshops.domain.interactor.SuccessCompletion
-import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractorImpl
-import com.kc.madridshops.domain.model.Shops
 
 
 class MadridShopsApp: MultiDexApplication(){
@@ -17,7 +13,7 @@ class MadridShopsApp: MultiDexApplication(){
 
         Log.d("App Init", "onCreate")
 
-        val allShopsInteractor = GetAllShopsInteractorImpl(this)
+       /* val allShopsInteractor = GetAllShopsInteractorImpl(this)
 
         allShopsInteractor.execute(
                 success = object: SuccessCompletion<Shops> {
@@ -33,7 +29,7 @@ class MadridShopsApp: MultiDexApplication(){
                         Log.d("Error", "error GetAllShops")
                     }
                 }
-        )
+        )*/
 
         /*DeleteAllShopsImpl(this).execute(success = {
             Log.d("success", "success")

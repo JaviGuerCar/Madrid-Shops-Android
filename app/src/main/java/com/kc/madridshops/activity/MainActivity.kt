@@ -24,6 +24,7 @@ import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractor
 import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractorImpl
 import com.kc.madridshops.domain.model.Shops
 import com.kc.madridshops.fragment.ListFragment
+import com.kc.madridshops.router.Router
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -113,9 +114,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addAllPins(shops: Shops){
-        for (i in 0 until shops.count()){
+        for (i in 250 until shops.count()){
             val shop = shops.get(i)
-            addPin(map!!, 40.416775, -3.703790, shop.name)
+            if (shop.latitude!=null && shop.longitude!=null){
+                addPin(map!!, shop.latitude!!, shop.longitude!!, shop.name)
+            }
         }
     }
 
@@ -135,6 +138,9 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
+        Router().navigateFromMainActivitytoPicassoActivity(this)
+
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)

@@ -1,6 +1,7 @@
 package com.kc.madridshops.domain.interactor.getallshops
 
 import android.content.Context
+import android.util.Log
 import com.kc.madridshops.domain.interactor.ErrorCompletion
 import com.kc.madridshops.domain.interactor.SuccessCompletion
 import com.kc.madridshops.domain.model.Shop
@@ -25,13 +26,47 @@ class GetAllShopsInteractorImpl(context: Context) : GetAllShopsInteractor {
     }
 
     private fun entityMapper(list: List<ShopEntity>): Shops {
-        val tempList = ArrayList<Shop>()
+        val shopList = ArrayList<Shop>()
         list.forEach {
-            val shop = Shop(it.id.toInt(), it.name, it.address)
-            tempList.add(shop)
+            //TO DO Map this propertys with a function
+            val shop = mapShopEntityIntoShop(it)
+            shopList.add(shop)
         }
 
-        val shops = Shops(tempList)
+        val shops = Shops(shopList)
         return shops
+    }
+
+    fun mapShopEntityIntoShop(shopEntity: ShopEntity): Shop {
+        val shop: Shop = Shop(
+            shopEntity.id.toInt(),
+                shopEntity.name,
+                shopEntity.description_en,
+                shopEntity.description_es,
+                stringWithComasToDouble(shopEntity.latitude),
+                stringWithComasToDouble(shopEntity.longitude),
+                shopEntity.img,
+                shopEntity.logo,
+                shopEntity.openingHours_es,
+                shopEntity.openingHours_en,
+                shopEntity.address,
+                shopEntity.url
+        )
+
+        return shop
+    }
+
+    fun stringWithComasToDouble(oldValue: String): Double?{
+        var newValue : Double? = null
+        val stringToDouble = oldValue.replace(",","")
+
+        try{
+            newValue = stringToDouble.toDouble()
+        }catch (e: Exception){
+            Log.d("ERROR PARSING", "Error to convert string with comas to double: " +oldValue)
+        }
+
+        return newValue
+
     }
 }

@@ -43,6 +43,7 @@ class RepositoryImpl(context:Context): Repository {
                 // If all good, parse downloaded data
                 val parser = JsonEntitiesParser()
                 var responseEntity: ShopsResponseEntity
+
                 try {
                     responseEntity = parser.parse<ShopsResponseEntity>(e)
                 }catch (e: InvalidFormatException){
