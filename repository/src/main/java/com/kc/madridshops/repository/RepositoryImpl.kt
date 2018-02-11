@@ -29,9 +29,6 @@ class RepositoryImpl(context:Context): Repository {
                 populateCache(success, error)
             })
 
-
-
-
     }
 
     private fun populateCache(success: (shops: List<ShopEntity>) -> Unit, error: (errorMessage: String) -> Unit) {

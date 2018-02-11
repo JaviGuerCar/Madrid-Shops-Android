@@ -63,7 +63,7 @@ class GetAllShopsInteractorImpl(context: Context) : GetAllShopsInteractor {
         try{
             newValue = stringToDouble.toDouble()
         }catch (e: Exception){
-            Log.d("ERROR PARSING", "Error to convert string with comas to double: " +oldValue)
+            Log.d("ERROR PARSING", "Error to convert string with comas to double")
         }
 
         return newValue

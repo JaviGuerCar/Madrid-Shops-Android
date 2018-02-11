@@ -52,6 +52,7 @@ class ShopActivity : AppCompatActivity() {
         val getAllShopsInteractor: GetAllShopsInteractor = GetAllShopsInteractorImpl(this)
         getAllShopsInteractor.execute(object: SuccessCompletion<Shops> {
             override fun successCompletion(shops: Shops) {
+                Log.d("Shops", "Número de Tiendas: " + shops.count())
 
                 shopListFragment?.shopsFromShopActivity(shops)
                 initializeMap(shops)

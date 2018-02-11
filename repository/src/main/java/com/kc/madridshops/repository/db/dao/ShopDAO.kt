@@ -17,6 +17,9 @@ internal class ShopDAO (val dbHelper: DBHelper): DAOPersistable<ShopEntity> {
         var id: Long = 0
         id = dbReadWriteConnection.insert(DBConstants.TABLE_SHOP, null, contentValues(element))
 
+        // Close DB
+        close()
+
         return id
     }
 
@@ -51,16 +54,25 @@ internal class ShopDAO (val dbHelper: DBHelper): DAOPersistable<ShopEntity> {
     }
 
     override fun delete(id: Long): Long {
-        return dbReadWriteConnection.delete(DBConstants.TABLE_SHOP, DBConstants.KEY_SHOP_DATABASE_ID + " = ?", arrayOf(id.toString())).toLong()
+        val deleteId = dbReadWriteConnection.delete(DBConstants.TABLE_SHOP, DBConstants.KEY_SHOP_DATABASE_ID + " = ?", arrayOf(id.toString())).toLong()
 
+        // Close DB
+        close()
+
+        return deleteId
     }
 
     override fun deleteAll(): Boolean {
-        return dbReadWriteConnection.delete(
+        val deleted = dbReadWriteConnection.delete(
                 DBConstants.TABLE_SHOP,
                 null,
                 null
                 ).toLong() >= 0 // Devuelvo true si he borrado algún registro
+
+        // Close DB
+        close()
+
+        return deleted
     }
 
 
@@ -91,6 +103,8 @@ internal class ShopDAO (val dbHelper: DBHelper): DAOPersistable<ShopEntity> {
             queryResult.add(se!!)
         }
 
+        close()
+
         return queryResult
     }
 
@@ -117,6 +131,7 @@ internal class ShopDAO (val dbHelper: DBHelper): DAOPersistable<ShopEntity> {
                 cursor.getString(cursor.getColumnIndex(DBConstants.KEY_SHOP_ADDRESS)),
                 cursor.getString(cursor.getColumnIndex(DBConstants.KEY_SHOP_URL))
         )
+
     }
 
     override fun queryCursor(id: Long): Cursor {
@@ -129,6 +144,8 @@ internal class ShopDAO (val dbHelper: DBHelper): DAOPersistable<ShopEntity> {
                 DBConstants.KEY_SHOP_DATABASE_ID
         )
 
+        close()
+
         return cursor
     }
 
@@ -139,9 +156,16 @@ internal class ShopDAO (val dbHelper: DBHelper): DAOPersistable<ShopEntity> {
                 DBConstants.KEY_SHOP_DATABASE_ID + " = ?",
                 arrayOf(id.toString())
         )
+
+        close()
         return numberOfRecordsUpdated.toLong()
     }
 
+    // Function to close DB
+    private fun close(){
+        dbReadOnlyConnection.close()
+        dbReadWriteConnection.close()
+    }
 
 
 }
