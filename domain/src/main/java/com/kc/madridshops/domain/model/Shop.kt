@@ -1,11 +1,13 @@
 package com.kc.madridshops.domain.model
 
+import java.io.Serializable
+
 // Shop: represents one Shop
 data class Shop(
         val id: Int,
         val name: String,
-        val description_es: String,
         val description_en: String,
+        val description_es: String,
         val latitude: Double?,
         val longitude: Double?,
         val img: String,
@@ -13,7 +15,7 @@ data class Shop(
         val openingHours_es: String,
         val openingHours_en: String,
         val address: String,
-        val url: String) {
+        val url: String): Serializable {
 
     init {
         Shops(ArrayList<Shop>())

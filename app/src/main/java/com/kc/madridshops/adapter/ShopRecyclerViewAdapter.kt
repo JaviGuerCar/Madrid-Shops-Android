@@ -13,9 +13,13 @@ import com.squareup.picasso.Picasso
 
 
 class ShopRecyclerViewAdapter(val shops: Shops?): RecyclerView.Adapter<ShopRecyclerViewAdapter.ViewHolder>(){
+
+    var onClickListener: View.OnClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val shopItemView = LayoutInflater.from(parent?.context).inflate(R.layout.shop_item, parent, false)
 
+        shopItemView.setOnClickListener(onClickListener)
         return ViewHolder(shopItemView)
     }
 
