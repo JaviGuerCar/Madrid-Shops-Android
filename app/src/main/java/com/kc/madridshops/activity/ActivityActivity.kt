@@ -24,7 +24,6 @@ import com.kc.madridshops.domain.interactor.getallactivities.GetAllActivitiesInt
 import com.kc.madridshops.domain.interactor.getallactivities.GetAllActivitiesInteractorImpl
 import com.kc.madridshops.domain.model.Activities
 import com.kc.madridshops.fragment.ActivityListFragment
-import kotlinx.android.synthetic.main.activity_activity.*
 
 class ActivityActivity : AppCompatActivity() {
 
@@ -36,7 +35,6 @@ class ActivityActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_activity)
-        setSupportActionBar(activity_toolbar)
 
         Log.d("App Init", "onCreate ActivitiesActivity")
 

@@ -24,7 +24,6 @@ import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractor
 import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractorImpl
 import com.kc.madridshops.domain.model.Shops
 import com.kc.madridshops.fragment.ShopListFragment
-import com.kc.madridshops.router.Router
 import kotlinx.android.synthetic.main.activity_shop.*
 
 class ShopActivity : AppCompatActivity() {
@@ -141,7 +140,7 @@ class ShopActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        Router().navigateFromShopsActivitytoActivityActivity(this)
+        //Router().navigateFromMainActivitytoActivityActivity(this)
 
         return when (item.itemId) {
             R.id.action_settings -> true
