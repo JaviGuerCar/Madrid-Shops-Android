@@ -48,9 +48,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".activity.ActivityActivity">
+
         </activity>
         <activity android:name=".activity.PicassoActivity" />
-        <activity android:name=".activity.ShopDetailActivity"></activity>
+        <activity android:name=".activity.ShopDetailActivity" />
+        <activity android:name=".activity.ActivityDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -20,42 +20,41 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.kc.madridshops.R
 import com.kc.madridshops.domain.interactor.ErrorCompletion
 import com.kc.madridshops.domain.interactor.SuccessCompletion
-import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractor
-import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractorImpl
-import com.kc.madridshops.domain.model.Shops
-import com.kc.madridshops.fragment.ShopListFragment
-import com.kc.madridshops.router.Router
-import kotlinx.android.synthetic.main.activity_shop.*
+import com.kc.madridshops.domain.interactor.getallactivities.GetAllActivitiesInteractor
+import com.kc.madridshops.domain.interactor.getallactivities.GetAllActivitiesInteractorImpl
+import com.kc.madridshops.domain.model.Activities
+import com.kc.madridshops.fragment.ActivityListFragment
+import kotlinx.android.synthetic.main.activity_activity.*
 
-class ShopActivity : AppCompatActivity() {
+class ActivityActivity : AppCompatActivity() {
 
     var context: Context? = null
     private var map: GoogleMap? = null
-    var shopListFragment: ShopListFragment? = null
+    var activityListFragment: ActivityListFragment? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shop)
-        setSupportActionBar(toolbar)
+        setContentView(R.layout.activity_activity)
+        setSupportActionBar(activity_toolbar)
 
-        Log.d("App Init", "onCreate ShopActivity")
+        Log.d("App Init", "onCreate ActivitiesActivity")
 
-        downloadShops()
+        downloadActivities()
 
-        shopListFragment = supportFragmentManager.findFragmentById(R.id.shops_list_fragment) as ShopListFragment
+        activityListFragment = supportFragmentManager.findFragmentById(R.id.activities_list_fragment) as ActivityListFragment
 
     }
 
-    private fun downloadShops() {
+    private fun downloadActivities() {
 
-        val getAllShopsInteractor: GetAllShopsInteractor = GetAllShopsInteractorImpl(this)
-        getAllShopsInteractor.execute(object: SuccessCompletion<Shops> {
-            override fun successCompletion(shops: Shops) {
-                Log.d("Shops", "Número de Tiendas: " + shops.count())
+        val getAllActivitiesInteractor: GetAllActivitiesInteractor = GetAllActivitiesInteractorImpl(this)
+        getAllActivitiesInteractor.execute(object: SuccessCompletion<Activities> {
+            override fun successCompletion(activities: Activities) {
+                Log.d("Activities", "Número de Actividades: " + activities.count())
 
-                shopListFragment?.shopsFromShopActivity(shops)
-                initializeMap(shops)
+                activityListFragment?.activitiesFromActivityActivity(activities)
+                initializeMap(activities)
            }
 
         }, object: ErrorCompletion {
@@ -66,8 +65,8 @@ class ShopActivity : AppCompatActivity() {
         })
     }
 
-    private fun initializeMap(shops: Shops) {
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.shops_map_fragment) as SupportMapFragment
+    private fun initializeMap(activities: Activities) {
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.activities_map_fragment) as SupportMapFragment
         mapFragment.getMapAsync({
             Log.d("SUCCESS","HABEMUS MAPA")
 
@@ -77,7 +76,7 @@ class ShopActivity : AppCompatActivity() {
             it.uiSettings.isZoomControlsEnabled = true
             map = it
 
-            addAllPins(shops)
+            addAllPins(activities)
 
         })
     }
@@ -115,11 +114,11 @@ class ShopActivity : AppCompatActivity() {
         }
     }
 
-    fun addAllPins(shops: Shops){
-        for (i in 0 until shops.count()){
-            val shop = shops.get(i)
-            if (shop.latitude!=null && shop.longitude!=null){
-                addPin(map!!, shop.latitude!!, shop.longitude!!, shop.name)
+    fun addAllPins(activities: Activities){
+        for (i in 0 until activities.count()){
+            val activity = activities.get(i)
+            if (activity.latitude!=null && activity.longitude!=null){
+                addPin(map!!, activity.latitude!!, activity.longitude!!, activity.name)
             }
         }
     }
@@ -141,7 +140,7 @@ class ShopActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        Router().navigateFromShopsActivitytoActivityActivity(this)
+        //Router().navigateFromMainActivitytoPicassoActivity(this)
 
         return when (item.itemId) {
             R.id.action_settings -> true

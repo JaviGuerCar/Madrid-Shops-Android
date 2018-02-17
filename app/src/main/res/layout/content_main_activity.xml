@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.ShopActivity"
-    tools:showIn="@layout/activity_shop"
+    tools:context=".activity.ActivityActivity"
+    tools:showIn="@layout/activity_activity"
     android:orientation="vertical">
 
     <fragment
-        android:id="@+id/shops_map_fragment"
+        android:id="@+id/activities_map_fragment"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,8 +19,8 @@
         android:layout_weight="1"/>
 
     <fragment
-        android:id="@+id/shops_list_fragment"
-        android:name="com.kc.madridshops.fragment.ShopListFragment"
+        android:id="@+id/activities_list_fragment"
+        android:name="com.kc.madridshops.fragment.ActivityListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorAccent"

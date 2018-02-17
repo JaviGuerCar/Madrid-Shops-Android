@@ -7,32 +7,32 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.kc.madridshops.R
-import com.kc.madridshops.domain.model.Shop
-import com.kc.madridshops.domain.model.Shops
+import com.kc.madridshops.domain.model.Activities
+import com.kc.madridshops.domain.model.Activity
 import com.squareup.picasso.Picasso
 
 
-class ShopRecyclerViewAdapter(val shops: Shops?): RecyclerView.Adapter<ShopRecyclerViewAdapter.ViewHolder>(){
+class ActivityRecyclerViewAdapter(val activities: Activities?): RecyclerView.Adapter<ActivityRecyclerViewAdapter.ViewHolder>(){
 
     var onClickListener: View.OnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val shopItemView = LayoutInflater.from(parent?.context).inflate(R.layout.item, parent, false)
+        val activityItemView = LayoutInflater.from(parent?.context).inflate(R.layout.item, parent, false)
 
-        shopItemView.setOnClickListener(onClickListener)
-        return ViewHolder(shopItemView)
+        activityItemView.setOnClickListener(onClickListener)
+        return ViewHolder(activityItemView)
     }
 
     override fun getItemCount(): Int {
-        if (shops != null){
-            return shops.count()
+        if (activities != null){
+            return activities.count()
         }
         return 0
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        if (shops != null){
-            holder?.bindShops(shops.get(position))
+        if (activities != null){
+            holder?.bindActivities(activities.get(position))
         }
 
     }
@@ -40,27 +40,27 @@ class ShopRecyclerViewAdapter(val shops: Shops?): RecyclerView.Adapter<ShopRecyc
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
         val context = itemView.context
-        val shopName = itemView.findViewById<TextView>(R.id.name_text_view)
+        val activityName = itemView.findViewById<TextView>(R.id.name_text_view)
         val logo = itemView.findViewById<ImageView>(R.id.logo_image_view)
         val image = itemView.findViewById<ImageView>(R.id.background_image_view)
 
 
-        fun bindShops(shop: Shop){
+        fun bindActivities(activity: Activity){
             // Synchronize Model-View
-            shopName.text = shop.name
+            activityName.text = activity.name
 
             //Picasso.with(context).setIndicatorsEnabled(true)
             //Picasso.with(context).isLoggingEnabled
 
             // Load Logo
             Picasso.with(context)
-                    .load(shop.logo)
+                    .load(activity.logo)
                     .placeholder(R.drawable.noimage)
                     .into(logo)
 
             // Load Image Background
             Picasso.with(context)
-                    .load(shop.img)
+                    .load(activity.img)
                     .placeholder(R.drawable.noimagelarge)
                     .into(image)
         }
