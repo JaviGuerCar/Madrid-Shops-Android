@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,10 +16,12 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.kc.madridshops.R
+import com.kc.madridshops.adapter.MapInfoWindowAdapter
 import com.kc.madridshops.domain.interactor.ErrorCompletion
 import com.kc.madridshops.domain.interactor.SuccessCompletion
 import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractor
 import com.kc.madridshops.domain.interactor.getallshops.GetAllShopsInteractorImpl
+import com.kc.madridshops.domain.model.Shop
 import com.kc.madridshops.domain.model.Shops
 import com.kc.madridshops.fragment.ShopListFragment
 import kotlinx.android.synthetic.main.activity_shop.*
@@ -78,6 +78,10 @@ class ShopActivity : AppCompatActivity() {
 
             addAllPins(shops)
 
+            // InfoWindow Adapter
+            val infoWindowAdapter = MapInfoWindowAdapter(this)
+            map!!.setInfoWindowAdapter(infoWindowAdapter)
+
         })
     }
 
@@ -118,33 +122,21 @@ class ShopActivity : AppCompatActivity() {
         for (i in 0 until shops.count()){
             val shop = shops.get(i)
             if (shop.latitude!=null && shop.longitude!=null){
-                addPin(map!!, shop.latitude!!, shop.longitude!!, shop.name)
+                addPin(map!!, shop)
             }
         }
     }
 
-    fun addPin(map: GoogleMap, latitude: Double, longitude: Double, title: String){
+    fun addPin(map: GoogleMap, shop: Shop) {
         map.addMarker(MarkerOptions()
-                .position(LatLng(latitude,longitude))
-                .title(title))
-    }
+                .position(LatLng(shop.latitude!!, shop.longitude!!))
+                .title(shop.name)
+                .snippet(shop.logo))
+                .tag = shop
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        //Router().navigateFromMainActivitytoActivityActivity(this)
-
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+        // OnClick InfoWindow
+        map.setOnInfoWindowClickListener {
+            startActivity(ShopDetailActivity.intent(this, it.tag as Shop))
         }
     }
 }

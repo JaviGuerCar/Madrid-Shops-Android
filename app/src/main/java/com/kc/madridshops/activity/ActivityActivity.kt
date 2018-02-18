@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,11 +16,13 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.kc.madridshops.R
+import com.kc.madridshops.adapter.MapInfoWindowAdapter
 import com.kc.madridshops.domain.interactor.ErrorCompletion
 import com.kc.madridshops.domain.interactor.SuccessCompletion
 import com.kc.madridshops.domain.interactor.getallactivities.GetAllActivitiesInteractor
 import com.kc.madridshops.domain.interactor.getallactivities.GetAllActivitiesInteractorImpl
 import com.kc.madridshops.domain.model.Activities
+import com.kc.madridshops.domain.model.Activity
 import com.kc.madridshops.fragment.ActivityListFragment
 
 class ActivityActivity : AppCompatActivity() {
@@ -76,8 +76,13 @@ class ActivityActivity : AppCompatActivity() {
 
             addAllPins(activities)
 
+            // InfoWindow Adapter
+            val infoWindowAdapter = MapInfoWindowAdapter(this)
+            map!!.setInfoWindowAdapter(infoWindowAdapter)
+
         })
     }
+
 
     fun centerMapInPosition(map: GoogleMap, latitude: Double, longitude: Double) {
         val coordinate = LatLng(latitude, longitude)
@@ -115,34 +120,28 @@ class ActivityActivity : AppCompatActivity() {
     fun addAllPins(activities: Activities){
         for (i in 0 until activities.count()){
             val activity = activities.get(i)
-            if (activity.latitude!=null && activity.longitude!=null){
-                addPin(map!!, activity.latitude!!, activity.longitude!!, activity.name)
+            if (activity.latitude != null && activity.longitude != null){
+                addPin(map!!, activity)
             }
         }
+
+
     }
 
-    fun addPin(map: GoogleMap, latitude: Double, longitude: Double, title: String){
+    fun addPin(map: GoogleMap, activity: Activity){
         map.addMarker(MarkerOptions()
-                .position(LatLng(latitude,longitude))
-                .title(title))
-    }
+                .position(LatLng(activity.latitude!!, activity.longitude!!))
+                .title(activity.name)
+                .snippet(activity.logo))
+                .tag = activity
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
+        // OnClick InfoWindow
+        map.setOnInfoWindowClickListener{
+            startActivity(ActivityDetailActivity.intent(this, it.tag as Activity))
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        //Router().navigateFromMainActivitytoPicassoActivity(this)
-
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
         }
+
     }
+
+
 }
