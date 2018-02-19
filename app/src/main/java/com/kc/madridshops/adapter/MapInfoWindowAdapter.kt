@@ -1,6 +1,7 @@
 package com.kc.madridshops.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -8,6 +9,7 @@ import android.widget.TextView
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import com.kc.madridshops.R
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 
@@ -36,8 +38,27 @@ class MapInfoWindowAdapter(context: Context) : GoogleMap.InfoWindowAdapter {
         Picasso.with(context)
                 .load(logo)
                 .placeholder(R.drawable.noimage)
-                .into(logoView)
+                .into(logoView, MarkerCallBack(marker, logo, logoView, context))
 
         return miView
     }
+}
+
+class MarkerCallBack(val marker: Marker, val URL: String, val logo: ImageView, val context: Context): Callback {
+    override fun onSuccess() {
+        if (marker != null && marker.isInfoWindowShown()){
+            marker.hideInfoWindow()
+
+            Picasso.with(context)
+                    .load(URL)
+                    .into(logo)
+
+            marker.showInfoWindow()
+        }
+    }
+
+    override fun onError() {
+        Log.d("Picasso error","Error loading Marker Logo")
+    }
+
 }
