@@ -88,11 +88,27 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:paddingBottom="8dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detail_shop_address_textView"
         tools:text="Descripción" />
+
+
+    <ImageView
+        android:id="@+id/detail_shop_map_image_view"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/noimage"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_shop_description_textView" />
 
 </android.support.constraint.ConstraintLayout>
 

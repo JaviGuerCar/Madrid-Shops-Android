@@ -36,6 +36,7 @@ class ActivityDetailActivity : AppCompatActivity() {
         val activityImage = findViewById<ImageView>(R.id.detail_activity_image_view)
         val activityDescription = findViewById<TextView>(R.id.detail_activity_description_textView)
         val activityURL = findViewById<TextView>(R.id.detail_activity_url_textView)
+        val activityMapImage = findViewById<ImageView>(R.id.detail_activity_map_image_view)
         val activityHours = findViewById<TextView>(R.id.detail_activity_opening_hours_textView)
         val activityAddress = findViewById<TextView>(R.id.detail_activity_address_textView)
 
@@ -45,11 +46,19 @@ class ActivityDetailActivity : AppCompatActivity() {
         activityHours.text = activity.openingHours_es
         activityAddress.text = activity.address
 
+        val activityURLMapStatic = "https://maps.googleapis.com/maps/api/staticmap?center=${activity.latitude},${activity.longitude}&zoom=17&size=320x220&markers=color:green%7C${activity.latitude},${activity.longitude}"
+
         // Load Image Background
         Picasso.with(this)
                 .load(activity.img)
                 .placeholder(R.drawable.noimagelarge)
                 .into(activityImage)
+
+        // Load Image Static Map
+        Picasso.with(this)
+                .load(activityURLMapStatic)
+                .placeholder(R.drawable.noimagelarge)
+                .into(activityMapImage)
 
     }
 

@@ -35,6 +35,7 @@ class ShopDetailActivity : AppCompatActivity() {
         val image = findViewById<ImageView>(R.id.detail_shop_image_view)
         val shopDescription = findViewById<TextView>(R.id.detail_shop_description_textView)
         val shopURL = findViewById<TextView>(R.id.detail_shop_url_textView)
+        val shopMapImage = findViewById<ImageView>(R.id.detail_shop_map_image_view)
         val shopHours = findViewById<TextView>(R.id.detail_shop_opening_hours_textView)
         val shopAddress = findViewById<TextView>(R.id.detail_shop_address_textView)
 
@@ -44,11 +45,19 @@ class ShopDetailActivity : AppCompatActivity() {
         shopHours.text = shop.openingHours_es
         shopAddress.text = shop.address
 
+        val shopURLMapStatic = "https://maps.googleapis.com/maps/api/staticmap?center=${shop.latitude},${shop.longitude}&zoom=17&size=320x220&markers=color:green%7C${shop.latitude},${shop.longitude}"
+
         // Load Image Background
         Picasso.with(this)
                 .load(shop.img)
                 .placeholder(R.drawable.noimagelarge)
                 .into(image)
+
+        // Load Image Static Map
+        Picasso.with(this)
+                .load(shopURLMapStatic)
+                .placeholder(R.drawable.noimagelarge)
+                .into(shopMapImage)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
