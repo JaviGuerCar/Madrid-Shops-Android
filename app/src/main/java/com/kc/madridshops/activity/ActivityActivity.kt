@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
+import android.widget.ViewSwitcher
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -27,9 +28,15 @@ import com.kc.madridshops.fragment.ActivityListFragment
 
 class ActivityActivity : AppCompatActivity() {
 
+    enum class VIEW_INDEX(val index: Int){
+        LOADING(0),
+        ACTIVITY(1)
+    }
+
     var context: Context? = null
     private var map: GoogleMap? = null
     var activityListFragment: ActivityListFragment? = null
+    lateinit var activityViewSwitcher : ViewSwitcher
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +44,12 @@ class ActivityActivity : AppCompatActivity() {
         setContentView(R.layout.activity_activity)
 
         Log.d("App Init", "onCreate ActivitiesActivity")
+
+        activityViewSwitcher = findViewById(R.id.activity_view_switcher)
+        activityViewSwitcher.setInAnimation(this, android.R.anim.fade_in)
+        activityViewSwitcher.setOutAnimation(this, android.R.anim.fade_out)
+
+        activityViewSwitcher.displayedChild = 0
 
         downloadActivities()
 
@@ -51,6 +64,7 @@ class ActivityActivity : AppCompatActivity() {
             override fun successCompletion(activities: Activities) {
                 Log.d("Activities", "Número de Actividades: " + activities.count())
 
+                activityViewSwitcher.displayedChild = VIEW_INDEX.ACTIVITY.index
                 activityListFragment?.activitiesFromActivityActivity(activities)
                 initializeMap(activities)
            }
@@ -88,7 +102,7 @@ class ActivityActivity : AppCompatActivity() {
         val coordinate = LatLng(latitude, longitude)
         val cameraPosition = CameraPosition.Builder().
                 target(coordinate).
-                zoom(13f).
+                zoom(14f).
                 build()
 
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
@@ -101,8 +115,10 @@ class ActivityActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION), 10)
 
             return
-        }
 
+        } else {
+            map.isMyLocationEnabled = true
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

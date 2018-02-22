@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
+import android.widget.ViewSwitcher
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -28,9 +29,15 @@ import kotlinx.android.synthetic.main.activity_shop.*
 
 class ShopActivity : AppCompatActivity() {
 
+    enum class VIEW_INDEX(val index: Int){
+        LOADING(0),
+        SHOP(1)
+    }
+
     var context: Context? = null
     private var map: GoogleMap? = null
     var shopListFragment: ShopListFragment? = null
+    lateinit var shopViewSwitcher : ViewSwitcher
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +46,10 @@ class ShopActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         Log.d("App Init", "onCreate ShopActivity")
+
+        shopViewSwitcher = findViewById(R.id.shop_view_switcher)
+        shopViewSwitcher.setInAnimation(this, android.R.anim.fade_in)
+        shopViewSwitcher.setOutAnimation(this, android.R.anim.fade_out)
 
         downloadShops()
 
@@ -53,6 +64,7 @@ class ShopActivity : AppCompatActivity() {
             override fun successCompletion(shops: Shops) {
                 Log.d("Shops", "Número de Tiendas: " + shops.count())
 
+                shopViewSwitcher.displayedChild = VIEW_INDEX.SHOP.index
                 shopListFragment?.shopsFromShopActivity(shops)
                 initializeMap(shops)
            }
@@ -89,7 +101,7 @@ class ShopActivity : AppCompatActivity() {
         val coordinate = LatLng(latitude, longitude)
         val cameraPosition = CameraPosition.Builder().
                 target(coordinate).
-                zoom(13f).
+                zoom(14f).
                 build()
 
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
@@ -102,6 +114,9 @@ class ShopActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION), 10)
 
             return
+
+        } else {
+            map.isMyLocationEnabled = true
         }
 
     }

@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ViewSwitcher
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.ActivityActivity"
-    tools:showIn="@layout/activity_activity"
-    android:orientation="vertical">
+    android:id="@+id/activity_view_switcher">
 
-    <fragment
-        android:id="@+id/activities_map_fragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:indeterminate="true" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:layout_weight="1"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".activity.ActivityActivity"
+        tools:showIn="@layout/activity_activity"
+        android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/activities_list_fragment"
-        android:name="com.kc.madridshops.fragment.ActivityListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorAccent"
-        android:layout_weight="1"/>
+        <fragment
+            android:id="@+id/activities_map_fragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:layout_weight="1"/>
 
-</LinearLayout>
+        <fragment
+            android:id="@+id/activities_list_fragment"
+            android:name="com.kc.madridshops.fragment.ActivityListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+</ViewSwitcher>
